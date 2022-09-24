@@ -4,12 +4,15 @@
 #define BTM_PIN   15
 #define SERVO_PIN 4
 
-#define LOCK_ANGLE   90
-#define UNLOCK_ANGLE 0
+#define LOCK_ANGLE   90 // Degree
+#define UNLOCK_ANGLE 0  // Degree
 
-Servo servo;
+#define WAIT_TIME_TO_LOCK 180 * 1000 // ms
 
+Servo      servo;
 void setup() {
+
+  // ピン
   pinMode(BTM_PIN, INPUT);
   servo.attach(SERVO_PIN);
 
@@ -28,11 +31,9 @@ void loop() {
     // 解錠
     servo.write(UNLOCK_ANGLE);
 
-    delay(5000);
+    delay(WAIT_TIME_TO_LOCK);
 
     // 施錠
     servo.write(LOCK_ANGLE);
   }
-
-  delay(100);
 }

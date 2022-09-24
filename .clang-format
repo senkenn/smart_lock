@@ -1,0 +1,7 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+
+AlignTrailingComments: true
+AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveMacros: Consecutive
