@@ -2,5 +2,18 @@
   "editor.formatOnSave": true,
   "cSpell.words": [
     "ssid"
-  ]
+  ],
+  "editor.rulers": [
+    140
+  ],
+  "files.associations": {
+    "array": "cpp",
+    "deque": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "vector": "cpp",
+    "string_view": "cpp",
+    "initializer_list": "cpp"
+  },
 }

@@ -5,3 +5,5 @@ AlignTrailingComments: true
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations: Consecutive
 AlignConsecutiveMacros: Consecutive
+
+ColumnLimit: 140
