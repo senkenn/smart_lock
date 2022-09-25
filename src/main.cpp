@@ -8,7 +8,7 @@
 #define LOCK_ANGLE   90 // Degree
 #define UNLOCK_ANGLE 0  // Degree
 
-#define WAIT_TIME_TO_LOCK 1 * 1000 // ms
+#define WAIT_TIME_TO_LOCK 3 * 1000 // ms
 
 Servo servo;
 
@@ -18,6 +18,7 @@ void setup() {
   Serial.begin(9600);
 
   connectToWiFi();
+  responseOnRequest();
 
   // ピン
   pinMode(BTM_PIN, INPUT);
@@ -28,8 +29,6 @@ void setup() {
 }
 
 void loop() {
-
-  wifiServerLoop();
 
   // ボタンの状態を取得
   int state = digitalRead(BTM_PIN);

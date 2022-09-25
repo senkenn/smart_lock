@@ -1,9 +1,20 @@
 #include "my-wifi.h"
 
-WiFiServer server(80);
+AsyncWebServer server(80); // ポート設定
+
+String processor(const String &state) {
+  Serial.println("state: " + state);
+  return "ON";
+}
 
 // WiFiサーバーセットアップ
 void connectToWiFi() {
+
+  // SPIFFSのセットアップ
+  if (!SPIFFS.begin(true)) {
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
 
   // IPアドレスの固定
   if (!WiFi.config(localIP, gateway, subnet)) {
@@ -24,62 +35,30 @@ void connectToWiFi() {
 
   Serial.print("HTTP Server: http://");
   Serial.println(WiFi.localIP());
+
+  // サーバースタート
+  server.begin();
+
+  Serial.println("Server start!");
 }
 
-// WiFiサーバーループ
-void wifiServerLoop() {
-  WiFiClient client = server.available();
+// リクエストとレスポンス
+void responseOnRequest() {
 
-  if (!client) {
-    return;
-  }
+  // GETリクエストに対するハンドラーを登録
+  // rootにアクセスされた時のレスポンス
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) { request->send(SPIFFS, "/index.html"); });
 
-  Serial.println("New Client."); // print a message out the serial port
+  // style.cssにアクセスされた時のレスポンス
+  server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) { request->send(SPIFFS, "/style.css", "text/css"); });
 
-  String currentLine = "";     // make a String to hold incoming data from the client
-  while (client.connected()) { // loop while the client's connected
-    if (client.available()) {  // if there's bytes to read from the client,
-      char c = client.read();  // read a byte, then
-      Serial.write(c);         // print it out the serial monitor
-      if (c == '\n') {         // if the byte is a newline character
+  server.on("/unlock", HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("GET unlock");
+    request->send(SPIFFS, "/index.html", String(), false, processor); // HTML内のプレースホルダーの数だけcallback関数が呼ばれる
+  });
 
-        // if the current line is blank, you got two newline characters in a row.
-        // that's the end of the client HTTP request, so send a response:
-        if (currentLine.length() == 0) {
-
-          // HTTP headers always start with a response code (e.g. HTTP/1.1 200 OK)
-          // and a content-type so the client knows what's coming, then a blank line:
-          client.println("HTTP/1.1 200 OK");
-          client.println("Content-type:text/html");
-          client.println();
-
-          // the content of the HTTP response follows the header:
-          client.print("Hello<br>");
-
-          // The HTTP response ends with another blank line:
-          client.println();
-          // break out of the while loop:
-          break;
-
-        } else { // if you got a newline, then clear currentLine:
-          currentLine = "";
-        }
-
-      } else if (c != '\r') { // if you got anything else but a carriage return character,
-        currentLine += c;     // add it to the end of the currentLine
-      }
-
-      // Check to see if the client request was "GET /H" or "GET /L":
-      if (currentLine.endsWith("GET /H")) {
-        digitalWrite(5, HIGH); // GET /H turns the LED on
-      }
-      if (currentLine.endsWith("GET /L")) {
-        digitalWrite(5, LOW); // GET /L turns the LED off
-      }
-    }
-  }
-
-  // close the connection:
-  client.stop();
-  Serial.println("Client Disconnected.");
+  server.on("/lock", HTTP_GET, [](AsyncWebServerRequest *request) {
+    Serial.println("GET lock");
+    request->send(SPIFFS, "/index.html", String(), false, processor);
+  });
 }
