@@ -5,5 +5,6 @@ AlignTrailingComments: true
 AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveDeclarations: Consecutive
 AlignConsecutiveMacros: Consecutive
+AllowShortFunctionsOnASingleLine: None # None : 短い関数でも1行で表示しない
 
 ColumnLimit: 140

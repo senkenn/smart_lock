@@ -1,11 +1,6 @@
-#include "my-wifi.h"
+#include "my-wifi.hpp"
 
 AsyncWebServer server(80); // ポート設定
-
-String processor(const String &state) {
-  Serial.println("state: " + state);
-  return "ON";
-}
 
 // WiFiサーバーセットアップ
 void connectToWiFi() {
@@ -42,8 +37,9 @@ void connectToWiFi() {
   Serial.println("Server start!");
 }
 
-// リクエストとレスポンス
-void responseOnRequest() {
+/// WebAPI設定関数
+/// @param callback 指定されたパスへのレスポンス時に実行されるコールバック関数
+void webApiConfig(std::function<String(String)> callback) {
 
   // GETリクエストに対するハンドラーを登録
   // rootにアクセスされた時のレスポンス
@@ -52,13 +48,13 @@ void responseOnRequest() {
   // style.cssにアクセスされた時のレスポンス
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request) { request->send(SPIFFS, "/style.css", "text/css"); });
 
-  server.on("/unlock", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/unlock", HTTP_GET, [callback](AsyncWebServerRequest *request) {
     Serial.println("GET unlock");
-    request->send(SPIFFS, "/index.html", String(), false, processor); // HTML内のプレースホルダーの数だけcallback関数が呼ばれる
+    request->send(SPIFFS, "/index.html", String(), false, callback); // HTML内のプレースホルダーの数だけcallback関数が呼ばれる
   });
 
-  server.on("/lock", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/lock", HTTP_GET, [callback](AsyncWebServerRequest *request) {
     Serial.println("GET lock");
-    request->send(SPIFFS, "/index.html", String(), false, processor);
+    request->send(SPIFFS, "/index.html", String(), false, callback);
   });
 }
