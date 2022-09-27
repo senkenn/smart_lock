@@ -1,4 +1,4 @@
-#include "my-wifi.hpp"
+#include "my-wifi.h"
 
 AsyncWebServer server(80); // ポート設定
 

@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include <my-servo.hpp>
-#include <my-wifi.hpp>
+#include <my-servo.h>
+#include <my-wifi.h>
 
 void setup() {
 

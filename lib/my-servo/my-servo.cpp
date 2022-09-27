@@ -1,4 +1,4 @@
-#include "my-servo.hpp"
+#include "my-servo.h"
 
 Servo servo;
 

@@ -1,5 +1,5 @@
-#ifndef MY_WIFI_HPP
-#define MY_WIFI_HPP
+#ifndef MY_WIFI_H
+#define MY_WIFI_H
 
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
@@ -12,4 +12,4 @@ const IPAddress subnet(255, 255, 255, 0);
 void connectToWiFi();
 void webApiConfig(std::function<String(String)>);
 
-#endif // MY_WIFI_HPP
+#endif // MY_WIFI_H
