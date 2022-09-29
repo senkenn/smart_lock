@@ -10,6 +10,6 @@ const IPAddress gateway(192, 168, 11, 1);
 const IPAddress subnet(255, 255, 255, 0);
 
 void connectToWiFi();
-void webApiConfig(std::function<String(const String &)>);
+void webApiConfig(std::function<String(const String &)>, std::function<void(void)>, std::function<void(void)>);
 
 #endif // MY_WIFI_H

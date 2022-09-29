@@ -2,6 +2,17 @@
 
 Servo servo;
 
+/// @brief 施錠
+void lock() {
+  servo.write(LOCK_ANGLE);
+}
+
+/// @brief 解錠
+void unlock() {
+  servo.write(UNLOCK_ANGLE);
+}
+
+/// @brief サーボモーター設定
 void servoConfig() {
 
   // ピン
@@ -19,20 +30,25 @@ void servoLoop() {
 
   // ボタン押下なら解錠
   if (state == HIGH) {
-
-    // 解錠
-    servo.write(UNLOCK_ANGLE);
+    unlock();
 
     delay(WAIT_TIME_TO_LOCK);
 
     // 施錠
-    servo.write(LOCK_ANGLE);
+    lock();
   }
 }
 
 /// @brief サーボモーターの状態を返す
 /// @param state HTML内のプレースホルダー
 String servoState(const String &state) {
-  Serial.println("state: " + state);
-  return "UNLOCK";
+
+  const int angle = servo.read();
+  Serial.println(angle);
+
+  if (angle == LOCK_ANGLE) { // もしロック状態ならば
+    return "LOCK";
+  } else {
+    return "UNLOCKING";
+  }
 };

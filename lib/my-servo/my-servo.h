@@ -14,5 +14,7 @@
 void   servoConfig();
 void   servoLoop();
 String servoState(const String &);
+void lock();
+void unlock();
 
 #endif // MY_SERVO_H

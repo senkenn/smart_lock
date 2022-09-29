@@ -8,7 +8,7 @@ void setup() {
   Serial.begin(9600);
 
   connectToWiFi();
-  webApiConfig(servoState);
+  webApiConfig(servoState, lock, unlock);
 
   servoConfig();
 }
