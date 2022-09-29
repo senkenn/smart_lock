@@ -29,3 +29,10 @@ void servoLoop() {
     servo.write(LOCK_ANGLE);
   }
 }
+
+/// @brief サーボモーターの状態を返す
+/// @param state HTML内のプレースホルダー
+String servoState(const String &state) {
+  Serial.println("state: " + state);
+  return "UNLOCK";
+};

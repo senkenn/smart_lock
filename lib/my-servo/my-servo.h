@@ -1,3 +1,6 @@
+#ifndef MY_SERVO_H
+#define MY_SERVO_H
+
 #include <ESP32Servo.h>
 
 #define BTM_PIN   15
@@ -8,12 +11,8 @@
 
 #define WAIT_TIME_TO_LOCK 3 * 1000 // ms
 
-/// @brief サーボモーターの状態を返す
-/// @param state HTML内のプレースホルダー
-auto servoState = [](const String &state) {
-  Serial.println("state: " + state);
-  return "UNLOCK";
-};
+void   servoConfig();
+void   servoLoop();
+String servoState(const String &);
 
-void servoConfig();
-void servoLoop();
+#endif // MY_SERVO_H

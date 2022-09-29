@@ -39,7 +39,7 @@ void connectToWiFi() {
 
 /// WebAPI設定関数
 /// @param callback 指定されたパスへのレスポンス時に実行されるコールバック関数
-void webApiConfig(std::function<String(String)> callback) {
+void webApiConfig(std::function<String(const String &)> callback) {
 
   // GETリクエストに対するハンドラーを登録
   // rootにアクセスされた時のレスポンス
