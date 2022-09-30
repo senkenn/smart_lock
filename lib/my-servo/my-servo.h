@@ -9,12 +9,12 @@
 #define LOCK_ANGLE   90 // Degree
 #define UNLOCK_ANGLE 0  // Degree
 
-#define WAIT_TIME_TO_LOCK 3 * 1000 // ms
+#define WAIT_TIME_TO_LOCK 5 * 1000 // ms
 
 void   servoConfig();
 void   servoLoop();
 String servoState(const String &);
-void lock();
-void unlock();
+void   lock();
+void   unlock();
 
 #endif // MY_SERVO_H
