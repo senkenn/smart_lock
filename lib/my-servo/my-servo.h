@@ -3,18 +3,15 @@
 
 #include <ESP32Servo.h>
 
-#define BTM_PIN   15
 #define SERVO_PIN 4
 
-#define LOCK_ANGLE   90 // Degree
-#define UNLOCK_ANGLE 0  // Degree
+#define INIT_ANGLE   0  // Degree
+#define UNLOCK_ANGLE 30 // Degree
 
-#define WAIT_TIME_TO_LOCK 5 * 1000 // ms
+#define WAIT_TIME_TO_LOCK 3 * 1000 // ms
 
 void   servoConfig();
-void   servoLoop();
-String servoState(const String &);
-void   lock();
+void   init();
 void   unlock();
 
 #endif // MY_SERVO_H

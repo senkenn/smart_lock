@@ -5,11 +5,12 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 
-const IPAddress localIP(192, 168, 11, 6);
+const IPAddress localIP(192, 168, 11, 7);
 const IPAddress gateway(192, 168, 11, 1);
 const IPAddress subnet(255, 255, 255, 0);
 
 void connectToWiFi();
-void webApiConfig(std::function<String(const String &)>, std::function<void(void)>, std::function<void(void)>);
+void webApiConfig();
+void wait(unsigned int waitTIme);
 
 #endif // MY_WIFI_H

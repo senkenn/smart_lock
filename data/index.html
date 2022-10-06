@@ -2,48 +2,13 @@
 <html>
 
 <head>
-  <title>ESP32 Web Server</title>
+  <title>ESP32 Intercom</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="data:,">
-  <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 <body>
-  <h1>ESP32 Web Server</h1>
-  <p>GPIO state: <strong> %STATE% </strong></p>
-  <p><button id="bUnlock">Unlock</button></p>
-  <p><button id="bLock">Lock</button></p>
-
-  <script>
-    const ENDPOINT_URL = "http://192.168.11.6";
-    const bUnlock = document.getElementById("bUnlock");
-    const bLock = document.getElementById("bLock");
-
-    const noCors = { mode: "no-cors" }; // 開発用のlocalhostからAPIを実行するためにCORSを無効
-
-    // アンロックボタンを押したとき
-    bUnlock.addEventListener("click", async () => {
-
-      // 解錠
-      await fetch(ENDPOINT_URL + "/unlock", noCors);
-      console.log("Unlock")
-
-      // 待機してから施錠
-      setTimeout(async () => {
-        await fetch(ENDPOINT_URL + "/lock", noCors);
-        console.log("Lock")
-      }, 5 * 1000)
-    });
-
-    // ロックボタンを押したとき
-    bLock.addEventListener("click", async () => {
-
-      // 施錠
-      await fetch(ENDPOINT_URL + "/lock", noCors);
-      console.log("Lock")
-    })
-  </script>
-
+  %STATE%
 </body>
 
 </html>
