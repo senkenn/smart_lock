@@ -9,7 +9,7 @@
 #define LOCK_ANGLE   90 // Degree
 #define UNLOCK_ANGLE 0  // Degree
 
-#define WAIT_TIME_TO_LOCK 5 * 1000 // ms
+#define WAIT_TIME_TO_LOCK 60 * 1000 // ms
 
 void   servoConfig();
 void   servoLoop();

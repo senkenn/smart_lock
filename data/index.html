@@ -15,31 +15,47 @@
   <p><button id="bLock">Lock</button></p>
 
   <script>
-    const ENDPOINT_URL = "http://192.168.11.6";
+    const ENDPOINT_URL_DOOR = "http://192.168.11.6";
+    const ENDPOINT_URL_INTERCOM = "http://192.168.11.7";
+
     const bUnlock = document.getElementById("bUnlock");
     const bLock = document.getElementById("bLock");
 
-    const noCors = { mode: "no-cors" }; // 開発用のlocalhostからAPIを実行するためにCORSを無効
+    const WAIT_TIME_UNLOCK_DOOR = 60 * 1000;  // ms
+    const WAIT_TIME_UNLOCK_INTERCOM = 6 * 1000;  // ms
+    const TIME_UNLOCK_INTERCOM = 60 * 1000; // ms
+    const noCors = { mode: "no-cors" }; // 開発用のlocalhostや、 別のESP32からAPIを実行するためにCORSを無効
 
     // アンロックボタンを押したとき
-    bUnlock.addEventListener("click", async () => {
+    bUnlock.addEventListener("click", () => {
 
-      // 解錠
-      await fetch(ENDPOINT_URL + "/unlock", noCors);
-      console.log("Unlock")
+      // インターフォンでオートロックを解錠
+      // 一定間隔で、解錠を繰り返す
+      const repUnlock = setInterval(() => {
+        fetch(ENDPOINT_URL_INTERCOM + "/unlock", noCors).then(() => console.log("Unlock intercom"));
+      },
+        WAIT_TIME_UNLOCK_INTERCOM
+      );
+
+      // 一定時間経過後、解錠を停止する
+      setTimeout(() => clearInterval(repUnlock), TIME_UNLOCK_INTERCOM);
+
+      // ドアのロックを解錠
+      fetch(ENDPOINT_URL_DOOR + "/unlock", noCors);
+      console.log("Unlock door");
 
       // 待機してから施錠
-      setTimeout(async () => {
-        await fetch(ENDPOINT_URL + "/lock", noCors);
-        console.log("Lock")
-      }, 5 * 1000)
+      setTimeout(() => {
+        fetch(ENDPOINT_URL_DOOR + "/lock", noCors).then(console.log("Lock door"));
+      }, WAIT_TIME_UNLOCK_DOOR);
+
     });
 
     // ロックボタンを押したとき
     bLock.addEventListener("click", async () => {
 
       // 施錠
-      await fetch(ENDPOINT_URL + "/lock", noCors);
+      await fetch(ENDPOINT_URL_DOOR + "/lock", noCors);
       console.log("Lock")
     })
   </script>
